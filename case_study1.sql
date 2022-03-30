@@ -177,5 +177,7 @@ insert into hop_dong_chi_tiet(so_luong,ma_hop_dong,ma_dich_vu_di_kem) value
 (2,1,2),
 (2,12,2);
 
-
+select * from nhan_vien where (ho_ten like "H%" and length(ho_ten)<15)or (ho_ten like"K%"and length(ho_ten)<15)or (ho_ten like"T%"and length(ho_ten)<15);
+select * from khach_hang 
+where ((year(ngay_sinh) between 1973 and 2004) and ((dia_chi like "%Đà Nẵng")or (dia_chi like "%Quảng Trị")));
 

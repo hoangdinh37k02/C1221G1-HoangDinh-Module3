@@ -36,3 +36,24 @@ exam_time tinyint default 1,
 FOREIGN KEY (sub_id) references `subject`(sub_id),
 FOREIGN KEY (student_id) references student(student_id)
 );
+
+insert into class value(1,"A1",20/12/2008,1),
+(2,"A2",22/12/2008,1),
+(3,"A2",22/12/2008,1);
+
+insert into student value(1,"Hung","Ha Noi","0912113113",1,1),
+(2,"Hoa","Hai Phong","",1,1),
+(3,"Manh","HCM","0123123123",1,1);
+
+insert into `subject` value(1,"CF",5,1),
+(2,"C",6,1),
+(3,"HDJ",5,1),
+(4,"RDBMS",10,1);
+
+insert into mark value(1,1,1,8,1),
+(2,3,2,10,2),
+(3,2,3,12,1);
+
+
+
+
