@@ -177,7 +177,18 @@ insert into hop_dong_chi_tiet(so_luong,ma_hop_dong,ma_dich_vu_di_kem) value
 (2,1,2),
 (2,12,2);
 
+-- task 2 
 select * from nhan_vien where (ho_ten like "H%" and length(ho_ten)<15)or (ho_ten like"K%"and length(ho_ten)<15)or (ho_ten like"T%"and length(ho_ten)<15);
+-- task 3 
 select * from khach_hang 
-where ((year(ngay_sinh) between 1973 and 2004) and ((dia_chi like "%Đà Nẵng")or (dia_chi like "%Quảng Trị")));
+where ((datediff(now(), khach_hang.ngay_sinh)/365 between 18 and 50) and ((dia_chi like "%Đà Nẵng")or (dia_chi like "%Quảng Trị")));
+-- task 4
+select khach_hang.ma_khach_hang, khach_hang.ho_ten, count(hop_dong.ma_khach_hang) as so_lan_dat
+from khach_hang inner join hop_dong on khach_hang.ma_khach_hang = hop_dong.ma_khach_hang
+where khach_hang.ma_loai_khach=1
+group by hop_dong.ma_khach_hang
+order by so_lan_dat;
+
+
+
 
