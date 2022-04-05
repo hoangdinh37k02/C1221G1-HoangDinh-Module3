@@ -188,7 +188,7 @@ from khach_hang inner join hop_dong on khach_hang.ma_khach_hang = hop_dong.ma_kh
 where khach_hang.ma_loai_khach=1
 group by hop_dong.ma_khach_hang
 order by so_lan_dat;
--- task 5\
+-- task 5
  select khach_hang.ma_khach_hang, khach_hang.ho_ten, loai_khach.ten_loai_khach, hop_dong.ma_hop_dong,
  hop_dong.ngay_lam_hop_dong, hop_dong.ngay_ket_thuc, dich_vu.ten_dich_vu, 
  sum(dich_vu.chi_phi_thue+coalesce(hop_dong_chi_tiet.so_luong*dich_vu_di_kem.gia,0)) as tong_tien
@@ -252,14 +252,21 @@ inner join loai_khach on khach_hang.ma_loai_khach = loai_khach.ma_loai_khach
 where (loai_khach.ten_loai_khach="Diamond" and ((khach_hang.dia_chi like "%Vinh") or (khach_hang.dia_chi like "%Quảng Ngãi")));
 
  -- task 12 inprogress
- select hop_dong.ma_hop_dong, nhan_vien.ho_ten, khach_hang.ho_ten, dich_vu.ten_dich_vu,
- sum(coalesce(hop_dong_chi_tiet.so_luong,0)) as so_luong_dich_vu_di_kem, hop_dong.tien_dat_coc
- from nhan_vien join hop_dong on nhan_vien.ma_nhan_vien = hop_dong.ma_nhan_vien
- join khach_hang on hop_dong.ma_khach_hang = khach_hang.ma_khach_hang
- join dich_vu on hop_dong.ma_dich_vu = dich_vu.ma_dich_vu
- join hop_dong_chi_tiet on hop_dong.ma_hop_dong=hop_dong_chi_tiet.ma_hop_dong
-
- group by dich_vu.ten_dich_vu;
+ select hop_dong.ma_hop_dong, nhan_vien.ho_ten  as "Nhan vien", khach_hang.ho_ten as "Khach hang", dich_vu.ten_dich_vu,
+ sum(coalesce(hop_dong_chi_tiet.so_luong,0)) as so_luong_dich_vu_di_kem, hop_dong.tien_dat_coc as dat_coc
+ from hop_dong left join nhan_vien on nhan_vien.ma_nhan_vien = hop_dong.ma_nhan_vien
+ left join khach_hang on hop_dong.ma_khach_hang = khach_hang.ma_khach_hang
+ left join dich_vu on hop_dong.ma_dich_vu = dich_vu.ma_dich_vu
+ left join hop_dong_chi_tiet on hop_dong.ma_hop_dong=hop_dong_chi_tiet.ma_hop_dong
+ where dich_vu.ten_dich_vu in
+ (select dich_vu.ten_dich_vu from
+ dich_vu inner join hop_dong on dich_vu.ma_dich_vu = hop_dong.ma_dich_vu
+ where hop_dong.ngay_lam_hop_dong between '2020-10-01 00:00:00' and '2020-12-31 23:59:59') 
+ group by hop_dong.ma_hop_dong
+ having dich_vu.ten_dich_vu not in
+ (select dich_vu.ten_dich_vu from
+ dich_vu inner join hop_dong on dich_vu.ma_dich_vu = hop_dong.ma_dich_vu
+ where hop_dong.ngay_lam_hop_dong between '2021-01-01 00:00:00' and '2021-06-30 23:59:59');
  
 -- task 13
  select dich_vu_di_kem.ma_dich_vu_di_kem, dich_vu_di_kem.ten_dich_vu_di_kem,
@@ -268,4 +275,74 @@ where (loai_khach.ten_loai_khach="Diamond" and ((khach_hang.dia_chi like "%Vinh"
  join hop_dong on hop_dong_chi_tiet.ma_hop_dong = hop_dong.ma_hop_dong
  group by hop_dong_chi_tiet.ma_dich_vu_di_kem
 having so_lan_dung_nhieu_nhat>= all (select sum(hop_dong_chi_tiet.so_luong) from hop_dong_chi_tiet group by hop_dong_chi_tiet.ma_dich_vu_di_kem);
- 
+
+-- task 14
+select hd.ma_hop_dong, ldv.ten_loai_dich_vu, dvdk.ten_dich_vu_di_kem, count(hdct.ma_dich_vu_di_kem) as so_lan_dat
+from hop_dong hd inner join hop_dong_chi_tiet hdct on hd.ma_hop_dong=hdct.ma_hop_dong
+inner join dich_vu_di_kem dvdk on hdct.ma_dich_vu_di_kem=dvdk.ma_dich_vu_di_kem
+inner join dich_vu dv on hd.ma_dich_vu = dv.ma_dich_vu
+inner join loai_dich_vu ldv on dv.ma_loai_dich_vu=ldv.ma_loai_dich_vu
+group by dvdk.ma_dich_vu_di_kem
+having count(hdct.ma_dich_vu_di_kem)=1;
+
+-- task 15
+select nv.ma_nhan_vien, nv.ho_ten, td.ten_trinh_do, bp.ten_bo_phan, nv.so_dt, nv.dia_chi, count(hd.ma_nhan_vien) from
+nhan_vien nv inner join trinh_do td on nv.ma_trinh_do = td.ma_trinh_do
+inner join bo_phan bp on nv.ma_bo_phan = bp.ma_bo_phan
+inner join hop_dong hd on nv.ma_nhan_vien=hd.ma_nhan_vien
+group by hd.ma_nhan_vien
+having count(hd.ma_nhan_vien)<=3;
+
+-- task 16
+set sql_safe_updates = 0;
+delete from nhan_vien
+where nhan_vien.ma_nhan_vien not in 
+(select distinct ma_nhan_vien from hop_dong
+where year(ngay_lam_hop_dong) between 2020 and 2021);
+set sql_safe_updates = 1;
+select * from nhan_vien;
+
+-- task 18
+set sql_safe_updates = 0;
+set foreign_key_checks =0;
+delete from khach_hang 
+where ma_khach_hang in
+ (select ma_khach_hang from 
+  hop_dong 
+ where year(hop_dong.ngay_lam_hop_dong)<'2021');
+set foreign_key_checks =1;
+set sql_safe_updates = 1;
+select * from khach_hang;
+
+-- task 17
+set sql_safe_updates = 0;
+update khach_hang set ma_loai_khach = 1
+where ma_khach_hang in (select khach_hang.ma_khach_hang from 
+(select khach_hang.ma_khach_hang, khach_hang.ho_ten
+ from loai_khach left join khach_hang on loai_khach.ma_loai_khach=khach_hang.ma_loai_khach
+ left join hop_dong on khach_hang.ma_khach_hang=hop_dong.ma_khach_hang
+ left join hop_dong_chi_tiet on hop_dong.ma_hop_dong = hop_dong_chi_tiet.ma_hop_dong
+ left join dich_vu on hop_dong.ma_dich_vu = dich_vu.ma_dich_vu
+ left join dich_vu_di_kem on hop_dong_chi_tiet.ma_dich_vu_di_kem=dich_vu_di_kem.ma_dich_vu_di_kem
+ group by khach_hang.ma_loai_khach
+ having khach_hang.ma_loai_khach = 2 and  sum(dich_vu.chi_phi_thue+coalesce(hop_dong_chi_tiet.so_luong*dich_vu_di_kem.gia,0))>10000000) as t);
+set sql_safe_updates = 1;
+
+-- task 19
+set sql_safe_updates = 0;
+update dich_vu_di_kem set gia = gia*2
+where ma_dich_vu_di_kem in (select * from 
+(select dich_vu_di_kem.ma_dich_vu_di_kem
+from hop_dong inner join hop_dong_chi_tiet on hop_dong.ma_hop_dong = hop_dong_chi_tiet.ma_hop_dong
+inner join dich_vu_di_kem on hop_dong_chi_tiet.ma_dich_vu_di_kem = dich_vu_di_kem.ma_dich_vu_di_kem
+where year(hop_dong.ngay_lam_hop_dong)=2020
+group by  hop_dong_chi_tiet.ma_dich_vu_di_kem
+having sum(hop_dong_chi_tiet.so_luong) >10) as temp);
+set sql_safe_updates = 1;
+
+-- task 20
+select ma_nhan_vien, ho_ten, email, so_dt, ngay_sinh, dia_chi, "nhan vien" as loai
+from nhan_vien
+union
+select ma_khach_hang, ho_ten, email, so_dt, ngay_sinh, dia_chi, "khach hang" 
+from khach_hang;
