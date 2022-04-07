@@ -1,0 +1,50 @@
+body{
+    font-family: Arial;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+header, footer{
+    padding: 10px;
+    color: white;
+    background-color: black;
+
+}
+
+nav ul{
+    padding: 0px;
+}
+
+nav li{
+    display: inline;
+    margin: 5px;
+    cursor: pointer;
+}
+
+nav li:hover{
+    background-color: red;
+}
+
+section{
+    margin: 5px;
+    padding: 10px;
+    background-color: lightgray;
+    width: 50%;
+    display: inline-block;
+}
+
+article{
+    margin: 5px;
+    padding: 10px;
+    background-color: antiquewhite;
+}
+
+aside{
+    margin: 5px;
+    padding: 10px;
+    float: right;
+    display: inline-block;
+    background-color: grey;
+    width: 45%;
+}
+
