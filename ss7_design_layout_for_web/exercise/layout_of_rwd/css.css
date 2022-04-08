@@ -2,13 +2,25 @@
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
+}
+html{
     font-family: Arial;
 }
 
-nav, footer{
-    position: relative;
+nav{
+    width: 100%;
+    position: fixed;
     height: 50px;
     background-color: black;
+    top: 0px;
+}
+
+footer{
+    width: 100%;
+    position: fixed;
+    height: 50px;
+    background-color: black;
+    bottom: 0px;
 }
 
 footer p{
@@ -18,7 +30,8 @@ footer p{
 }
 
 section{
-    height: 87vh;
+    margin-top: 50px;
+    height: 100vh;
 }
 
 nav li{
@@ -101,3 +114,4 @@ h1 p{
     box-shadow: 2px 2px 4px grey;
     font-size: 25px;
 }
+

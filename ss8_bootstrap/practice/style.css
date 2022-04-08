@@ -1,0 +1,21 @@
+body{
+    height: 100%;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #ffffff;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-signin{
+    background-color: lightgray;
+}
+
+.mb-4{
+    margin-top: 10px;
+}
+
+.btn btn-lg btn-primary btn-block, .inputEmail, .inputPassword{
+    width: 188px;
+}
