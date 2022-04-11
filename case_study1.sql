@@ -346,3 +346,78 @@ from nhan_vien
 union
 select ma_khach_hang, ho_ten, email, so_dt, ngay_sinh, dia_chi, "khach hang" 
 from khach_hang;
+
+-- task 21 
+create view v_nhanvien as
+select nhan_vien.* from nhan_vien inner join
+hop_dong on nhan_vien.ma_nhan_vien=hop_dong.ma_hop_dong
+where nhan_vien.dia_chi = "Hải Châu" and date(hop_dong.ngay_lam_hop_dong)="2019-12-12";
+select * from v_nhanvien;
+
+-- task 22
+set sql_safe_updates = 0;
+update nhan_vien set nhan_vien.dia_chi="Liên Chiểu" where nhan_vien.ma_nhan_vien in
+(select * from (select ma_nhan_vien from v_nhanvien) as t);
+
+-- task 23
+
+delimiter //
+create procedure sp_1(in ma_khach_hang int)
+begin
+	delete khach_hang from khach_hang where khach_hang.ma_khach_hang=ma_khach_hang;
+end //
+delimiter 
+call sp_1(6);
+
+-- task 24
+ delimiter //
+ create procedure sp_2(in ma_hop_dong int, in ngay_lam_hop_dong datetime,
+ in ngay_ket_thuc datetime, in tien_dat_coc double, in ma_nhan_vien int,
+ in ma_khach_hang int, in ma_dich_vu int)
+ begin
+ set @x = (select count(ma_hop_dong) from hop_dong where hop_dong.ma_hop_dong=ma_hop_dong
+ group by hop_dong.ma_hop_dong);
+ if((@x is null)
+ and (select ma_nhan_vien from nhan_vien where nhan_vien.ma_nhan_vien=ma_nhan_vien)
+ and (select ma_khach_hang from khach_hang where khach_hang.ma_khach_hang=ma_khach_hang)
+ and (select ma_dich_vu from dich_vu where dich_vu.ma_dich_vu=ma_dich_vu)
+ and (ngay_ket_thuc>ngay_lam_hop_dong )) then
+ insert into hop_dong values(ma_hop_dong, ngay_lam_hop_dong, ngay_ket_thuc,
+ tien_dat_coc, ma_nhan_vien, ma_khach_hang, ma_dich_vu);
+ else 
+ signal sqlstate "45000" set message_text = 'Dữ liệu sai';
+ end if;
+ end //
+  delimiter;
+  
+  -- task 25
+  delimiter //
+  drop trigger if exists tr_1 //
+  create trigger tr_1 after delete on hop_dong for each row
+  begin
+	set @x = (select count(*) as count from hop_dong );
+  end; //
+
+  set @x=0;
+  delete from hop_dong where hop_dong.ma_hop_dong =11;
+  select @x as 'total amount';
+  
+  -- task 26
+    delimiter //
+  drop trigger if exists tr_2 //
+  create trigger tr_2 after update on hop_dong for each row
+  begin
+  if datediff(new.ngay_ket_thuc,old.ngay_lam_hop_dong)<2 then
+  signal sqlstate '45000' set message_text =
+  'ngày ket thúc hợp đồng phải lớn hơn ngày làm hợp đồng 2 ngày';
+  end if;
+  end; //
+
+update hop_dong set ngay_ket_thuc = '2022-03-05 00:00:00' where ma_hop_dong =14;
+
+ 
+ 
+
+
+
+
