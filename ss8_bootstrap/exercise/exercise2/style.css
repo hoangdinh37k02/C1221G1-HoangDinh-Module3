@@ -1,0 +1,32 @@
+#nav1 {
+    margin-top: 30px;
+    height: 30px;
+    background-color: dodgerblue;
+    margin-bottom: 50px;
+}
+
+#nav1 p{
+    text-align: center;
+}
+
+#nav1 a{
+    line-height: 30px;
+    color: white;
+}
+
+h1, h3{
+    text-align: center;
+}
+
+#sub_nav{
+    text-align: center;
+    margin-top: 30px;
+}
+footer{
+    height: 50px;
+    /*background-color: whitesmoke;*/
+}
+
+footer span{
+    line-height: 50px;
+}
