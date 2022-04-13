@@ -13,9 +13,9 @@ public class CalculatorServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String productName = request.getParameter("Product Name");
-        double productPrice = Double.parseDouble(request.getParameter("List Price"));
-        double discount = Double.parseDouble(request.getParameter("Discount Percent"));
+        String productName = request.getParameter("product_name");
+        double productPrice = Double.parseDouble(request.getParameter("list_price"));
+        double discount = Double.parseDouble(request.getParameter("discount_percent"));
 
         double discountAmount = productPrice*discount*0.01;
         double finalAmount= productPrice-discountAmount;

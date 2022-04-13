@@ -37,16 +37,17 @@
   <body>
   <div id="main">
     <h1>Product Discount Calculator</h1>
+    <a href="/calculate?ProductName=abc&ListPrice=10000&DiscountPercent=10"></a>
     <form action="/calculate" method="post">
       <lable>Product Name: </lable>
       <br>
-      <input type="text" name="Product Name" placeholder="Enter product name: "> <br>
+      <input type="text" name="product_name" placeholder="Enter product name: "> <br>
       <lable>List Price: </lable>
       <br>
-      <input type="number" name="List Price" placeholder="Enter price"> <br>
+      <input type="number" name="list_price" placeholder="Enter price"> <br>
       <lable>Discount Percent</lable>
       <br>
-      <input type="number" name="Discount Percent"> <br>
+      <input type="number" name="discount_percent"> <br>
       <br>
       <input type="submit" value="Calculate">
     </form>
