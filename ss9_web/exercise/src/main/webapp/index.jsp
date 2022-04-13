@@ -9,8 +9,33 @@
 <html>
   <head>
     <title>Product Discount</title>
+    <style>
+      #main{
+        width: 30%;
+        margin: auto;
+        background-color: lightgoldenrodyellow;
+        border: 1px solid ;
+      }
+
+      h1{
+        text-align: center;
+      }
+
+      input{
+        display: block;
+        margin: auto;
+      }
+
+      lable{
+        display: block;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
+  <div id="main">
     <h1>Product Discount Calculator</h1>
     <form action="/calculate" method="post">
       <lable>Product Name: </lable>
@@ -23,7 +48,8 @@
       <br>
       <input type="number" name="Discount Percent"> <br>
       <br>
-      <input type="submit" value="Calculate" style="height: 30px; width: 80px; margin-left: 40px">
+      <input type="submit" value="Calculate">
     </form>
+  </div>
   </body>
 </html>

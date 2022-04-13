@@ -18,8 +18,12 @@ public class CalculatorServlet extends HttpServlet {
         double discount = Double.parseDouble(request.getParameter("Discount Percent"));
 
         double discountAmount = productPrice*discount*0.01;
+        double finalAmount= productPrice-discountAmount;
 
         request.setAttribute("discount", discountAmount);
+        request.setAttribute("productName", productName);
+        request.setAttribute("finalAmount", finalAmount);
+        request.setAttribute("discountRate", discount);
         request.getRequestDispatcher("result.jsp").forward(request, response);
 //        PrintWriter writer = response.getWriter();
 //        writer.println("<html>");
