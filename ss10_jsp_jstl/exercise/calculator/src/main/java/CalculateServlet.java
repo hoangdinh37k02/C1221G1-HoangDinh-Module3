@@ -12,10 +12,13 @@ public class CalculateServlet extends HttpServlet {
         float last_number = Float.parseFloat(request.getParameter("last_operand"));
         String operator = request.getParameter("operator");
 
-        float result = Calculator.calculate(first_number,last_number,operator);
-        if (last_number==0){
-
+        String result = "Không thể chia cho 0";
+        try {
+            result = String.valueOf(Calculator.calculate(first_number,last_number,operator));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         request.setAttribute("result", result);
         request.setAttribute("first_number", first_number);
         request.setAttribute("last_number", last_number);

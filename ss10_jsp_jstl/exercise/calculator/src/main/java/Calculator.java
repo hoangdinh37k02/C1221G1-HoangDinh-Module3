@@ -5,7 +5,7 @@ public class Calculator {
 
     public Calculator(){}
 
-    public static float calculate(float first_number, float last_number, String operator){
+    public static float calculate(float first_number, float last_number, String operator) throws Exception {
         float result=0;
         switch (operator){
             case "+":
@@ -18,7 +18,11 @@ public class Calculator {
                 result=first_number*last_number;
                 break;
             case "/":
+                if (last_number==0){
+                        throw new Exception("lỗi");
+                } else {
                     result = first_number / last_number;
+                }
                     break;
 
         }
