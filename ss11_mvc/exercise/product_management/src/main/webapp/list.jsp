@@ -25,7 +25,7 @@
     <c:forEach items='${products}' var="product" varStatus="No">
         <tr>
             <td>${No.count}</td>
-            <td>${product.sku}</td>
+            <td><a href="/product?action=view&sku=${product.getSku()}">${product.sku}</a></td>
             <td>${product.name}</td>
             <td>${product.price}</td>
             <td><a href="/product?action=delete&sku=${product.getSku()}">Delete</a></td>

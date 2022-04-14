@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 public class ProductServiceImpl implements IProductService {
-    private static Map<Integer, Product> products;
+    private static Map<String, Product> products;
 
     static {
         products = new HashMap<>();
-        products.put(1,new Product("1", "Orion", "2"));
-        products.put(2,new Product("2", "O'star", "6"));
-        products.put(3,new Product("3", "Oreo", "3"));
-        products.put(4,new Product("4", "Cosy", "1"));
-        products.put(5,new Product("5", "Cara", "2"));
+        products.put("1",new Product("1", "Orion", "2"));
+        products.put("2",new Product("2", "O'star", "6"));
+        products.put("3",new Product("3", "Oreo", "3"));
+        products.put("4",new Product("4", "Cosy", "1"));
+        products.put("5",new Product("5", "Cara", "2"));
     }
 
     @Override
@@ -26,7 +26,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public void save(Product product) {
-        products.put(Integer.parseInt(product.getSku()),product);
+        products.put(product.getSku(),product);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public void update(String sku, Product product) {
-        products.put(Integer.parseInt(product.getSku()),product);
+        products.put(product.getSku(),product);
     }
 
 

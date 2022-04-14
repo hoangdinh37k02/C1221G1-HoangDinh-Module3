@@ -30,9 +30,23 @@ public class ControllerServlet extends HttpServlet {
             case "edit":
                 showEditForm(request,response);
                 break;
+            case "view":
+                viewProduct(request,response);
+                break;
             default:
             listProduct(request,response);
             break;
+        }
+    }
+
+    private void viewProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        String sku = request.getParameter("sku");
+        Product product = iProductService.findBySku(sku);
+        if(product == null){
+            request.getRequestDispatcher("error-404.jsp").forward(request,response);
+        } else {
+            request.setAttribute("product", product);
+            request.getRequestDispatcher("view.jsp").forward(request,response);
         }
     }
 
