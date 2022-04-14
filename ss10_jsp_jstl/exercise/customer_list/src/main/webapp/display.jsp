@@ -41,7 +41,7 @@
         <th class="col-2">Tên</th>
         <th class="col-2">Ngày sinh</th>
         <th class="col-3">Địa chỉ</th>
-        <th class="col-4">Hình ảnh</th>
+        <th class="col-1">Hình ảnh</th>
     </tr>
     </thead>
     <c:forEach items="${customer}" var="cus" varStatus="STT">
@@ -51,7 +51,7 @@
         <td class="col-2">${cus.getName()}</td>
         <td class="col-2">${cus.getBirthDay()}</td>
         <td class="col-3">${cus.getAddress()}</td>
-        <td class="col-4"><img src="${cus.getImg()}" style="width: 40px"></td>
+        <td class="col-1"><img src="${cus.getImg()}" style="width: 40px"></td>
     </tr>
 
     </c:forEach>
