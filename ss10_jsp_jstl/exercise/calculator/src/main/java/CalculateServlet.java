@@ -12,17 +12,19 @@ public class CalculateServlet extends HttpServlet {
         float last_number = Float.parseFloat(request.getParameter("last_operand"));
         String operator = request.getParameter("operator");
 
-        String result = "Không thể chia cho 0";
-        try {
-            result = String.valueOf(Calculator.calculate(first_number,last_number,operator));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        float result =0;
+        String message="";
+            try {
+                result = Calculator.calculate(first_number, last_number, operator);
+            } catch (ArithmeticException arithmeticException){
+                message=arithmeticException.getMessage();
+            }
 
         request.setAttribute("result", result);
         request.setAttribute("first_number", first_number);
         request.setAttribute("last_number", last_number);
         request.setAttribute("operator", operator);
+        request.setAttribute("message", message);
         request.getRequestDispatcher("/calculate.jsp").forward(request,response);
     }
 

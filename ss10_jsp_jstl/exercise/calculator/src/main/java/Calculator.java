@@ -5,7 +5,7 @@ public class Calculator {
 
     public Calculator(){}
 
-    public static float calculate(float first_number, float last_number, String operator) throws Exception {
+    public static float calculate(float first_number, float last_number, String operator) throws ArithmeticException{
         float result=0;
         switch (operator){
             case "+":
@@ -19,12 +19,10 @@ public class Calculator {
                 break;
             case "/":
                 if (last_number==0){
-                        throw new Exception("lỗi");
+                    throw new ArithmeticException("Không chia cho 0");
                 } else {
-                    result = first_number / last_number;
-                }
-                    break;
-
+                result = first_number / last_number;}
+                break;
         }
         return result;
     }

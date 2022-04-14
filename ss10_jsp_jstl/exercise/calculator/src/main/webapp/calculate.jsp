@@ -13,6 +13,7 @@
 </head>
 <body>
     <h1>Result: </h1>
-<span>${first_number} ${operator} ${last_number} = ${result}</span>
+    <c:if test="${!message.equals('')}">${message}</c:if>
+    <c:if test="${message.equals('')}"><span>${first_number} ${operator} ${last_number} = ${result}</span></c:if>
 </body>
 </html>
