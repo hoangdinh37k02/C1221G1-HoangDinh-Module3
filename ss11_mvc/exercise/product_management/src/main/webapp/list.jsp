@@ -24,7 +24,7 @@
         <th class="col-2">Delete product</th>
         <th class="col-2">Edit product</th>
     </tr>
-    <c:forEach items='${products}' var="product" varStatus="No">
+    <c:forEach items="${products}" var="product" varStatus="No">
         <tr class="row">
             <td class="col-1">${No.count}</td>
             <td class="col-1"><a href="/product?action=view&sku=${product.getSku()}">${product.sku}</a></td>
