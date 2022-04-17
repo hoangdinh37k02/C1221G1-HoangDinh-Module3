@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Locale;
 
 @WebServlet(name = "ControllerServlet", value = "/product")
-public class ControllerServlet extends HttpServlet {
+public class ProductController extends HttpServlet {
     private IProductService iProductService = new ProductServiceImpl();
 
     @Override
