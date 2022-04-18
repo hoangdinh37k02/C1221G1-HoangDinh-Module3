@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class BaseRepository {
-    private String jdbcUrl = "jdbc:mysql://localhost:3306/demo_c12";
+    private String jdbcUrl = "jdbc:mysql://localhost:3306/demo1";
     private String username = "root";
-    private String password = "28101998";
+    private String password = "codegym";
     private Connection connection;
 
     public BaseRepository() {

@@ -1,6 +1,7 @@
 package Controller;
 
 import model.User;
+import repository.IUserDAO;
 import repository.UserDAO;
 
 import javax.servlet.*;
@@ -10,17 +11,17 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "Controller.UserControllerServlet", urlPatterns = "/users")
+@WebServlet(name = "UserServlet", urlPatterns = "/users")
 public class UserControllerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private UserDAO userDAO;
+    private IUserDAO userDAO;
 
     public void init() {
         userDAO = new UserDAO();
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -33,6 +34,9 @@ public class UserControllerServlet extends HttpServlet {
                 case "edit":
                     updateUser(request, response);
                     break;
+                case "search":
+                    searchByCountry(request,response);
+                    break;
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
@@ -40,8 +44,9 @@ public class UserControllerServlet extends HttpServlet {
     }
 
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -58,6 +63,11 @@ public class UserControllerServlet extends HttpServlet {
                 case "delete":
                     deleteUser(request, response);
                     break;
+                case "search":
+                    request.getRequestDispatcher("user/search.jsp").forward(request,response);
+                    break;
+                case "sort":
+                    listByName(request, response);
                 default:
                     listUser(request, response);
                     break;
@@ -65,6 +75,19 @@ public class UserControllerServlet extends HttpServlet {
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }
+    }
+
+    private void listByName(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException{
+        List<User> listUser = userDAO.selectAllUsersByName();
+        request.setAttribute("listUserSortByName", listUser);
+        request.getRequestDispatcher("user/list.jsp").forward(request,response);
+    }
+
+    private void searchByCountry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
+        String country = request.getParameter("country").toLowerCase();
+        List<User> userList = userDAO.searchByCountry(country);
+        request.setAttribute("userList", userList);
+        request.getRequestDispatcher("user/search.jsp").forward(request,response);
     }
 
     private void listUser(HttpServletRequest request, HttpServletResponse response)
