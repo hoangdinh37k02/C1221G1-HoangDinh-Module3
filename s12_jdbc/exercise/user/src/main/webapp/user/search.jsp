@@ -12,7 +12,11 @@
     <title>Search User</title>
 </head>
 <body>
+
 <h1>Search User</h1>
+<h2>
+    <a href="users?action=users">List All Users</a>
+</h2>
 <form method="post">
     <fieldset>
         <legend>Input user country</legend>

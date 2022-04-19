@@ -2,7 +2,7 @@ package Controller;
 
 import model.User;
 import repository.IUserDAO;
-import repository.UserDAO;
+import repository.impl.UserRepositoryImpl;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -17,7 +17,7 @@ public class UserControllerServlet extends HttpServlet {
     private IUserDAO userDAO;
 
     public void init() {
-        userDAO = new UserDAO();
+        userDAO = new UserRepositoryImpl();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -148,5 +148,12 @@ public class UserControllerServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("user/list.jsp");
         dispatcher.forward(request, response);
     }
+
+//    private void searchByCountry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
+//        String country = request.getParameter("country").toLowerCase();
+//        List<User> userList = userDAO.searchByCountry(country);
+//        request.setAttribute("userList", userList);
+//        request.getRequestDispatcher("user/search.jsp").forward(request,response);
+//    }
 }
 

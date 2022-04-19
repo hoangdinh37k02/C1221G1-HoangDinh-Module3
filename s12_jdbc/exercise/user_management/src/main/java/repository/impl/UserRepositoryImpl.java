@@ -22,10 +22,9 @@ public class UserRepositoryImpl implements IUserRepository {
     @Override
     public List<User> getList() {
         List<User> users = new ArrayList<>();
-        try (Connection connection = this.baseRepository.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);) {
-            System.out.println(preparedStatement);
-
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.baseRepository.getConnection().prepareStatement(SELECT_ALL_USERS);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
@@ -36,7 +35,13 @@ public class UserRepositoryImpl implements IUserRepository {
                 users.add(new User(id, name, email, country));
             }
         } catch (SQLException e) {
-            printSQLException(e);
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return users;
     }
@@ -44,22 +49,73 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Override
     public void save(User user) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.baseRepository.getConnection().prepareStatement(INSERT_USERS_SQL);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getCountry());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
-    private void printSQLException(SQLException ex) {
-        for (Throwable e : ex) {
-            if (e instanceof SQLException) {
-                e.printStackTrace(System.err);
-                System.err.println("SQLState: " + ((SQLException) e).getSQLState());
-                System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
-                System.err.println("Message: " + e.getMessage());
-                Throwable t = ex.getCause();
-                while (t != null) {
-                    System.out.println("Cause: " + t);
-                    t = t.getCause();
-                }
+    @Override
+    public User selectUser(Integer id) {
+        PreparedStatement preparedStatement = null;
+        User user = null;
+        try {
+            preparedStatement = this.baseRepository.getConnection().prepareStatement(SELECT_USER_BY_ID);
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                String name = resultSet.getString("name");
+                String email = resultSet.getString("email");
+                String country = resultSet.getString("country");
+                user = new User(id,name,email,country);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return user;
+    }
+
+    @Override
+    public boolean updateUser(User user) {
+        boolean rowUpdate = false;
+        PreparedStatement statement = null;
+        try {
+            statement = this.baseRepository.getConnection().prepareStatement(UPDATE_USERS_SQL);
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getCountry());
+            statement.setInt(4, user.getId());
+            rowUpdate = statement.executeUpdate()>0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rowUpdate;
+    }
+
+    @Override
+    public boolean deleteUser(Integer id) {
+        PreparedStatement preparedStatement = null;
+        boolean rowDelete = false;
+        try {
+            preparedStatement = this.baseRepository.getConnection().prepareStatement(DELETE_USERS_SQL);
+            preparedStatement.setInt(1,id);
+            rowDelete=preparedStatement.executeUpdate()>0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rowDelete;
     }
 }

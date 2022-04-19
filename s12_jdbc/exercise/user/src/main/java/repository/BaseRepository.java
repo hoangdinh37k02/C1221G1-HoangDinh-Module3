@@ -19,7 +19,7 @@ public class BaseRepository {
 //        }
     }
 
-    public static Connection getConnectionJavaToDB() {
+    public Connection getConnectionJavaToDB() {
         Connection connection =null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -32,4 +32,5 @@ public class BaseRepository {
         return connection;
 
     }
+
 }
