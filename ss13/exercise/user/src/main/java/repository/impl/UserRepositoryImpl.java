@@ -93,7 +93,76 @@ public class UserRepositoryImpl implements IUserDAO {
         }
         return users;
 
-    }public List<User> selectAllUsers() {
+    }
+
+    @Override
+    public User getUserById(int id) {
+        User user = null;
+
+        String query = "{CALL get_user_by_id(?)}";
+        Connection connection = null;
+
+        try (
+
+
+             CallableStatement callableStatement = this.baseRepository.getConnectionJavaToDB().prepareCall(query);) {
+
+            callableStatement.setInt(1, id);
+
+
+            ResultSet rs = callableStatement.executeQuery();
+
+            // Step 4: Process the ResultSet object.
+
+            while (rs.next()) {
+
+                String name = rs.getString("name");
+
+                String email = rs.getString("email");
+
+                String country = rs.getString("country");
+
+                user = new User(id, name, email, country);
+
+            }
+
+        } catch (SQLException e) {
+
+            printSQLException(e);
+
+        }
+
+        return user;
+    }
+
+    @Override
+    public void insertUserStore(User user) throws SQLException {
+        String query = "{CALL insert_user(?,?,?)}";
+        Connection connection = null;
+        // try-with-resource statement will auto close the connection.
+
+        try (
+
+             CallableStatement callableStatement = this.baseRepository.getConnectionJavaToDB().prepareCall(query);) {
+
+            callableStatement.setString(1, user.getName());
+
+            callableStatement.setString(2, user.getEmail());
+
+            callableStatement.setString(3, user.getCountry());
+
+            System.out.println(callableStatement);
+
+            callableStatement.executeUpdate();
+
+        } catch (SQLException e) {
+
+            printSQLException(e);
+
+        }
+    }
+
+    public List<User> selectAllUsers() {
         List<User> users = new ArrayList<>();
         Connection connection =null;
         try {
