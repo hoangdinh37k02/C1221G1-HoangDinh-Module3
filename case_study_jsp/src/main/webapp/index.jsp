@@ -23,6 +23,7 @@
         padding: 0;
         margin-left: auto;
         margin-right: auto;
+        background-image: url("https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/10024652-bc18297d4573af8399677d30a0363d4e.jpeg?tr=q-40,c-at_max,w-1280,h-720&_src=imagekit");
       }
 
       #head{
@@ -73,13 +74,19 @@
   <body>
   <div id="main">
     <div id="head">
+      <div style="float: left;">
+        <img style="height: 90px; margin-top: 5px; margin-left: 10px" src="https://cardy.vn/upload/images/san-pham/logo-diem-uu-dai/640x480/2/fvd.jpg" alt="">
+      </div>
 
+      <div style="float: right; height: 100px">
+        <p style="height: 100px; line-height: 100px; font-size: 15px; font-weight: bold">Hoàng Định</p>
+      </div>
     </div>
     <div id="head-link">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Home</a>
         <a class="navbar-brand" href="#">Employee</a>
-        <a class="navbar-brand" href="/resort?action=create">Customer</a>
+        <a class="navbar-brand" href="/resort?action=list">Customer</a>
         <a class="navbar-brand" href="#">Service</a>
         <a class="navbar-brand" href="#">Contract</a>
 

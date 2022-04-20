@@ -5,13 +5,13 @@ public class Customer {
     private int maLoaiKhach;
     private String hoTen;
     private String ngaySinh;
-    private String gioiTinh;
+    private int gioiTinh;
     private String soCMND;
     private String soDienThoai;
     private String email;
     private String diaChi;
 
-    public Customer(int maLoaiKhach, String hoTen, String ngaySinh, String gioiTinh, String soCMND, String soDienThoai, String email, String diaChi) {
+    public Customer(int maLoaiKhach, String hoTen, String ngaySinh, int gioiTinh, String soCMND, String soDienThoai, String email, String diaChi) {
         this.maLoaiKhach = maLoaiKhach;
         this.hoTen = hoTen;
         this.ngaySinh = ngaySinh;
@@ -22,13 +22,14 @@ public class Customer {
         this.diaChi = diaChi;
     }
 
-    public Customer(int maKhachHang, int maLoaiKhach, String hoTen, String ngaySinh, String gioiTinh, String soCMND, String email, String diaChi) {
+    public Customer(int maKhachHang, int maLoaiKhach, String hoTen, String ngaySinh, int gioiTinh, String soCMND, String soDienThoai, String email, String diaChi) {
         this.maKhachHang = maKhachHang;
         this.maLoaiKhach = maLoaiKhach;
         this.hoTen = hoTen;
         this.ngaySinh = ngaySinh;
         this.gioiTinh = gioiTinh;
         this.soCMND = soCMND;
+        this.soDienThoai = soDienThoai;
         this.email = email;
         this.diaChi = diaChi;
     }
@@ -65,11 +66,11 @@ public class Customer {
         this.ngaySinh = ngaySinh;
     }
 
-    public String getGioiTinh() {
+    public int getGioiTinh() {
         return gioiTinh;
     }
 
-    public void setGioiTinh(String gioiTinh) {
+    public void setGioiTinh(int gioiTinh) {
         this.gioiTinh = gioiTinh;
     }
 

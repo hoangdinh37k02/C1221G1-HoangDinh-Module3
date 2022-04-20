@@ -10,26 +10,34 @@
 <html>
 <head>
     <title>Create New Customer</title>
+    <link rel="stylesheet" href="bootstrap413/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="datatables/css/dataTables.bootstrap4.min.css" />
 </head>
 <body>
 <center>
     <h1>Tạo khách hàng mới</h1>
     <h2>
+        <a href="/"> <button class="btn btn-success">Về trang chủ</button></a>
 
-        <a href="/">Về trang chủ</a> <br>
-        <a href="resort?action=view">Danh sách khách hàng</a>
+    </h2>
+    <h2>
+        <a href="resort?action=list"><button class="btn btn-success">Về danh sách</button></a>
     </h2>
 </center>
 <div align="center">
     <form method="post">
-        <table border="1" cellpadding="5">
+        <table class="table table-striped table-bordered">
             <caption>
                 <h2>Tạo khách hàng</h2>
             </caption>
             <tr>
-                <th>Mã loại khách:</th>
+                <th>Loại khách:</th>
                 <td>
-                    <input type="text" name="maLoaiKhach" size="45"/>
+                    <select name="maLoaiKhach" id="">
+                    <c:forEach items="${customerTypeList}" var="c">
+                        <option value="${c.maLoaiKhach}">${c.tenLoaiKhach}</option>
+                    </c:forEach>
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -47,7 +55,11 @@
             <tr>
                 <th>Giới tính:</th>
                 <td>
-                    <input type="number" name="gioiTinh" size="45"/>
+                    <select name="gioiTinh">
+                        <option value="0">Nữ</option>
+                        <option value="1">Nam</option>
+                    </select>
+<%--                    <input type="text" name="gioiTinh" size="45"/>--%>
                 </td>
             </tr>
             <tr>
@@ -65,22 +77,26 @@
             <tr>
                 <th>Email:</th>
                 <td>
-                    <input type="text" name="email" size="15"/>
+                    <input type="text" name="email" size="45"/>
                 </td>
             </tr>
             <tr>
                 <th>Địa chỉ:</th>
                 <td>
-                    <input type="text" name="diaChi" size="15"/>
+                    <input type="text" name="diaChi" size="45"/>
                 </td>
             </tr>
             <tr>
                 <td colspan="2" align="center">
-                    <input type="submit" value="Save"/>
+                    <input class="btn btn-primary" type="submit" value="Save"/>
                 </td>
             </tr>
         </table>
     </form>
 </div>
+
+<script src="jquery/jquery-3.5.1.min.js"></script>
+<script src="datatables/js/jquery.dataTables.min.js"></script>
+<script src="datatables/js/dataTables.bootstrap4.min.js"></script>
 </body>
 </html>
