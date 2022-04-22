@@ -23,7 +23,17 @@
     <h2>
         <a href="/"><button class="btn btn-success">Về trang chủ</button></a>
     </h2>
-
+    <form method="post" action="/resort?action=search">
+        <input type="text" name="name" placeholder="Input Customer Name: ">
+        <input type="text" name="email" placeholder="Input Customer Email: ">
+        <select name="maLoaiKhach" >
+            <option value="">Chọn loại khách</option>
+            <c:forEach items="${customerTypeList}" var="c">
+                <option value="${c.maLoaiKhach}">${c.tenLoaiKhach}</option>
+            </c:forEach>
+        </select>
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
 
 </center>
 <div align="center" class="container">
@@ -34,7 +44,7 @@
                 <thead>
                     <tr>
                         <th>Mã khách hàng</th>
-                        <th>Mã loại khách</th>
+                        <th>Loại khách</th>
                         <th>Họ Tên</th>
                         <th>Ngày sinh</th>
                         <th>Giới tính</th>
@@ -118,6 +128,8 @@
 <script src="jquery/jquery-3.5.1.min.js"></script>
 <script src="datatables/js/jquery.dataTables.min.js"></script>
 <script src="datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function() {
         $('#tableCustomer').dataTable( {

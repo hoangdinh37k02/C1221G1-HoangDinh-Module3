@@ -33,7 +33,7 @@
             <tr>
                 <th>Loại khách:</th>
                 <td>
-                    <select name="maLoaiKhach" id="">
+                    <select name="maLoaiKhach" >
                     <c:forEach items="${customerTypeList}" var="c">
                         <option value="${c.maLoaiKhach}">${c.tenLoaiKhach}</option>
                     </c:forEach>
@@ -44,6 +44,7 @@
                 <th>Họ tên:</th>
                 <td>
                     <input type="text" name="hoTen" size="45"/>
+                    <p style="color:red;">${error.get("name")}</p>
                 </td>
             </tr>
             <tr>
@@ -66,18 +67,21 @@
                 <th>Số CMND:</th>
                 <td>
                     <input type="text" name="soCMND" size="45"/>
+                    <p style="color:red;">${error.get("soCMND")}</p>
                 </td>
             </tr>
             <tr>
                 <th>Số điện thoại:</th>
                 <td>
                     <input type="text" name="soDienThoai" size="45"/>
+                    <p style="color:red;">${error.get("soDT")}</p>
                 </td>
             </tr>
             <tr>
                 <th>Email:</th>
                 <td>
                     <input type="text" name="email" size="45"/>
+                    <p style="color:red;">${error.get("email")}</p>
                 </td>
             </tr>
             <tr>

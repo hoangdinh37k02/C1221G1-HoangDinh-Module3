@@ -1,9 +1,9 @@
 package controller;
 
-import model.Customer;
-import model.CustomerType;
-import service.impl.CustomerServiceImpl;
-import service.impl.CustomerTypeServiceImpl;
+import model.customer.Customer;
+import model.customer.CustomerType;
+import service.impl.customer.CustomerServiceImpl;
+import service.impl.customer.CustomerTypeServiceImpl;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -11,6 +11,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "ResortServletController", value = "/resort")
 public class CustomerController extends HttpServlet {
@@ -32,6 +33,9 @@ public class CustomerController extends HttpServlet {
                 break;
             case "delete":
                 deleteCustomer(request,response);
+                break;
+            case "search":
+                searchCustomer(request,response);
                 break;
         }
     }
@@ -56,11 +60,22 @@ public class CustomerController extends HttpServlet {
                 case "list":
                     listCustomer(request,response);
                     break;
-//                case "delete":
-//                    deleteCustomer(request,response);
+//                case "search":
+//                    request.getRequestDispatcher("view/customer/list.jsp").forward(request,response);
 //                    break;
             }
 
+    }
+
+    private void searchCustomer(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        String name = request.getParameter("name").toLowerCase();
+        String email = request.getParameter("email").toLowerCase();
+        String maLoaiKhach = request.getParameter("maLoaiKhach").toLowerCase();
+        List<Customer> customerList= customerService.searchByName(name,email,maLoaiKhach);
+        request.setAttribute("customerList", customerList);
+        List<CustomerType> customerTypeList=customerTypeService.selectAllCustomerType();
+        request.setAttribute("customerTypeList", customerTypeList);
+        request.getRequestDispatcher("view/customer/list.jsp").forward(request,response);
     }
 
     private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -104,8 +119,8 @@ public class CustomerController extends HttpServlet {
         List<CustomerType> customerTypeList=customerTypeService.selectAllCustomerType();
         request.setAttribute("customerTypeList", customerTypeList);
         Customer customer = customerService.selectCustomer(maKhachHang);
-        request.getRequestDispatcher("view/customer/edit.jsp").forward(request,response);
         request.setAttribute("customer", customer);
+        request.getRequestDispatcher("view/customer/edit.jsp").forward(request,response);
 
     }
 
@@ -127,8 +142,22 @@ public class CustomerController extends HttpServlet {
         String email = request.getParameter("email");
         String diaChi = request.getParameter("diaChi");
         Customer customer = new Customer(maLoaiKhach,hoTen,ngaySinh,gioiTinh,soCMND,soDienThoai,email,diaChi);
-        customerService.insertCustomer(customer);
-        request.getRequestDispatcher("view/customer/create.jsp").forward(request,response);
+//        customerService.insertCustomer(customer);
+        Map<String, String> map = customerService.insertCustomer(customer);
+        if (map.isEmpty()){
+            this.listCustomer(request,response);
+//            List<Customer> customerList = customerService.selectAllCustomer();
+//            List<CustomerType> customerTypeList=customerTypeService.selectAllCustomerType();
+//            request.setAttribute("customerList", customerList);
+//            request.setAttribute("customerTypeList", customerTypeList);
+//            request.getRequestDispatcher("view/customer/list.jsp").forward(request,response);
+        } else {
+            List<CustomerType> customerTypeList=customerTypeService.selectAllCustomerType();
+            request.setAttribute("customerTypeList", customerTypeList);
+            request.setAttribute("error", map);
+            request.getRequestDispatcher("view/customer/create.jsp").forward(request,response);
+        }
+
     }
 
 }

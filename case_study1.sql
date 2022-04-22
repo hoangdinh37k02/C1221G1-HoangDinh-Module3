@@ -415,8 +415,7 @@ call sp_1(6);
 
 update hop_dong set ngay_ket_thuc = '2022-03-05 00:00:00' where ma_hop_dong =14;
 
- 
- 
+
 
 
 

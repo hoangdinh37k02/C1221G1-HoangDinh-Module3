@@ -29,15 +29,22 @@
                     Chỉnh sửa khách hàng
                 </h2>
             </caption>
-            <c:if test="${customer != null}">
-                <input type="hidden" name="maKhachHang" value="<c:out value='${customer.maKhachHang}' />"/>
-            </c:if>
+<%--            <c:if test="${customer != null}">--%>
+<%--                <input type="hidden" name="maKhachHang" value="<c:out value='${customer.maKhachHang}' />"/>--%>
+<%--            </c:if>--%>
             <tr>
                 <th>Loại khách:</th>
                 <td>
-                    <select name="maLoaiKhach" id="">
+                    <select name="maLoaiKhach" >
                         <c:forEach items="${customerTypeList}" var="c">
+                            <c:if test="${c.maLoaiKhach==customer.maLoaiKhach}">
                             <option value="${c.maLoaiKhach}">${c.tenLoaiKhach}</option>
+                            </c:if>
+                        </c:forEach>
+                        <c:forEach items="${customerTypeList}" var="c">
+                            <c:if test="${c.maLoaiKhach!=customer.maLoaiKhach}">
+                                <option value="${c.maLoaiKhach}">${c.tenLoaiKhach}</option>
+                            </c:if>
                         </c:forEach>
                     </select>
                 </td>

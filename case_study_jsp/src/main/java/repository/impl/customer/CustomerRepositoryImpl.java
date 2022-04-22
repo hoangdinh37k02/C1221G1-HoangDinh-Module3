@@ -1,6 +1,6 @@
-package repository.impl;
+package repository.impl.customer;
 
-import model.Customer;
+import model.customer.Customer;
 import repository.BaseRepository;
 import repository.ICustomerRepository;
 
@@ -17,7 +17,6 @@ public class CustomerRepositoryImpl implements ICustomerRepository {
     public void insertCustomer(Customer customer) {
         PreparedStatement preparedStatement =null;
         try {
-
              preparedStatement =this.baseRepository.getConnectionJavaToDB()
                     .prepareStatement("insert into khach_hang (ma_loai_khach, ho_ten, ngay_sinh, gioi_tinh, so_cmnd, so_dt, email, dia_chi) values (?,?,?,?,?,?,?,?);");
             preparedStatement.setInt(1, customer.getMaLoaiKhach());
@@ -32,7 +31,6 @@ public class CustomerRepositoryImpl implements ICustomerRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
     }
 
@@ -114,5 +112,33 @@ public class CustomerRepositoryImpl implements ICustomerRepository {
         rowdelete = preparedStatement.executeUpdate()>0;
 
         return rowdelete;
+    }
+
+    @Override
+    public List<Customer> searchByName(String name, String email, String maLoaiKhach) {
+        List<Customer> customerList = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = this.baseRepository.getConnectionJavaToDB()
+                    .prepareStatement("select * from khach_hang where ho_ten like ? and email like ? and ma_loai_khach like ?;");
+            preparedStatement.setString(1,"%"+name+"%");
+            preparedStatement.setString(2,"%"+email+"%");
+            preparedStatement.setString(3,"%"+maLoaiKhach+"%");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                int maKhachHang = rs.getInt("ma_khach_hang");
+                int maLoaiKhach1 = rs.getInt("ma_loai_khach");
+                String hoTen = rs.getString("ho_ten");
+                String ngaySinh = rs.getString("ngay_sinh");
+                int gioiTinh = rs.getInt("gioi_tinh");
+                String soCMND = rs.getString("so_cmnd");
+                String soDienThoai = rs.getString("so_dt");
+                String email1 = rs.getString("email");
+                String diaChi = rs.getString("dia_chi");
+                customerList.add(new Customer(maKhachHang,maLoaiKhach1,hoTen,ngaySinh,gioiTinh,soCMND,soDienThoai,email1,diaChi));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customerList;
     }
 }

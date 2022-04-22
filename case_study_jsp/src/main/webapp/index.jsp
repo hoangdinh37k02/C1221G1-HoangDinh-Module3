@@ -42,6 +42,7 @@
         background-color: #F5F5F5;
         margin-bottom:5px;
         clear: both;
+
       }
 
       #left{
@@ -85,9 +86,9 @@
     <div id="head-link">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Home</a>
-        <a class="navbar-brand" href="#">Employee</a>
+        <a class="navbar-brand" href="/employee?action=list">Employee</a>
         <a class="navbar-brand" href="/resort?action=list">Customer</a>
-        <a class="navbar-brand" href="#">Service</a>
+        <a class="navbar-brand" href="/service?action=list">Service</a>
         <a class="navbar-brand" href="#">Contract</a>
 
 
